@@ -19,7 +19,7 @@ public class EmployeeTest {
     }
 
     @Test
-    public void givenEmployesString_whenEmployeeToString_thenReturnString () {
+    public void givenEmployesStringWhenEmployeeToStringThenReturnString () {
         String employeeToString = "Employee(id=1, firstName=Valid_Name_Employee, lastName=Valid_Last_Name_Employee, email=valid_email_employee@mail.com)";
         Assertions.assertThat(employee.toString()).isEqualTo(employeeToString);
     }

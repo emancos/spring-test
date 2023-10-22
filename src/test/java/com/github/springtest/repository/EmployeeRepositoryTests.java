@@ -34,7 +34,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for save employee operation")
     @Test
-    void givenEmployeeObject_whenSaveEmployee_thenReturnSavedEmployee() {
+    void givenEmployeeObjectWhenSaveEmployeeThenReturnSavedEmployee() {
         Employee employeeSaved = employeeRepository.save(employee);
         assertThat(employeeSaved).isNotNull();
         assertThat(employeeSaved.getId()).isPositive();
@@ -42,7 +42,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for get all employees operation")
     @Test
-    void givenEmployeeList_whenFindAll_thenEmployeeList() {
+    void givenEmployeeListWhenFindAllThenEmployeeList() {
         int listSize = 5;
         for (int i = 0; i < listSize; i++) {
             Employee aEmployee = Employee.builder()
@@ -58,7 +58,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for get employee by id operation")
     @Test
-    void givenEmplyeeObject_whenFindById_thenReturnEmployeeObject() {
+    void givenEmplyeeObjectWhenFindByIdThenReturnEmployeeObject() {
         employeeRepository.save(employee);
         Employee employeeById = employeeRepository.findById(employee.getId()).orElse(null);
         assertThat(employeeById).isNotNull();
@@ -66,7 +66,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for get employee by email operation")
     @Test
-    void givenEmplyeeObject_whenFindByEmail_thenReturnEmployeeObject() {
+    void givenEmplyeeObjectWhenFindByEmailThenReturnEmployeeObject() {
         employeeRepository.save(employee);
         Employee employeeByEmail = employeeRepository.findByEmail(employee.getEmail()).orElse(null);
         assertThat(employeeByEmail).isNotNull();
@@ -74,7 +74,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for update employee operation")
     @Test
-    void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee() {
+    void givenEmployeeObjectWhenUpdateEmployeeThenReturnUpdatedEmployee() {
         employeeRepository.save(employee);
         Employee savedEmployee = employeeRepository.findById(employee.getId()).orElse(null);
         assertThat(savedEmployee).isNotNull();
@@ -91,7 +91,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for delete employee operation")
     @Test
-    void givenEmplyeeObject_whenDeleteEmployee_thenRemoveEmployee() {
+    void givenEmplyeeObjectWhenDeleteEmployeeThenRemoveEmployee() {
         employeeRepository.save(employee);
         employeeRepository.deleteById(employee.getId());
         Optional<Employee> deletedEmployee = employeeRepository.findById(employee.getId());
@@ -100,7 +100,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for custom query using JPQL with index")
     @Test
-    void givenFirstNameAndLastName_whenFindByJPQL_thenReturnEmployeeObject() {
+    void givenFirstNameAndLastNameWhenFindByJPQLThenReturnEmployeeObject() {
         employeeRepository.save(employee);
         Employee employeeByJPQL = employeeRepository
                 .findByJPQL(VALID_NAME_EMPLOYEE, VALID_LAST_NAME_EMPLOYEE);
@@ -109,7 +109,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for custom query using JPQL with named params")
     @Test
-    void givenFirstNameAndLastName_whenFindByJPQLNamedParams_thenReturnEmployeeObject() {
+    void givenFirstNameAndLastNameWhenFindByJPQLNamedParamsThenReturnEmployeeObject() {
         employeeRepository.save(employee);
         Employee employeeByJPQL = employeeRepository
                 .findByJPQLNamedParams(VALID_NAME_EMPLOYEE, VALID_LAST_NAME_EMPLOYEE);
@@ -118,7 +118,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for native query using native SQL with index")
     @Test
-    void givenFirstNameAndLastName_whenFindByNativeSQL_thenReturnEmployeeObject() {
+    void givenFirstNameAndLastNameWhenFindByNativeSQLThenReturnEmployeeObject() {
         employeeRepository.save(employee);
         Employee employeeByJPQL = employeeRepository
                 .findByNativeSQL(VALID_NAME_EMPLOYEE, VALID_LAST_NAME_EMPLOYEE);
@@ -127,7 +127,7 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for native query using native SQL with named params")
     @Test
-    void givenFirstNameAndLastName_whenFindByNativeSQLNamedParams_thenReturnEmployeeObject() {
+    void givenFirstNameAndLastNameWhenFindByNativeSQLNamedParamsThenReturnEmployeeObject() {
         employeeRepository.save(employee);
         Employee employeeByJPQL = employeeRepository
                 .findByNativeSQLNamedParams(VALID_NAME_EMPLOYEE, VALID_LAST_NAME_EMPLOYEE);

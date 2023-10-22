@@ -47,7 +47,7 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for saveEmployee method")
     @Test
-    public void givenEmployee_whenSaveEmployee_thenReturnEmployeeObject() {
+    public void givenEmployeeWhenSaveEmployeeThenReturnEmployeeObject() {
         given(employeeRepository.findByEmail(employee.getEmail())).willReturn(Optional.empty());
         given(employeeRepository.save(employee)).willReturn(employee);
         Employee savedEmployee = employeeService.saveEmployee(employee);
@@ -56,7 +56,7 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for saveEmployee method with throws exeption")
     @Test
-    public void givenExistingEmail_whenSaveEmployee_thenThrowsException() {
+    public void givenExistingEmailWhenSaveEmployeeThenThrowsException() {
         given(employeeRepository.findByEmail(employee.getEmail())).willReturn(Optional.of(employee));
         Assertions.assertThrows(ResourceNotFoundException.class, () -> employeeService.saveEmployee(employee));
         verify(employeeRepository, never()).save(any(Employee.class));
@@ -64,7 +64,7 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for getAllEmployees method")
     @Test
-    public void givenEmployeesList_whenGetAllEmployee_thenReturnEmployeesList() {
+    public void givenEmployeesListWhenGetAllEmployeeThenReturnEmployeesList() {
         Employee employee1 = Employee.builder()
                 .firstName("Valid_Name_Employee1")
                 .lastName("Valid_Last_Name_Employee1")
@@ -78,7 +78,7 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for getAllEmployees method with empty list")
     @Test
-    public void givenEmptyEmployeesList_whenGetAllEmployee_thenReturnEmptyEmployeesList() {
+    public void givenEmptyEmployeesListWhenGetAllEmployeeThenReturnEmptyEmployeesList() {
         given(employeeRepository.findAll()).willReturn(Collections.emptyList());
         List<Employee> employeeList = employeeService.getAllEmployees();
         assertThat(employeeList).isEmpty();
@@ -86,7 +86,7 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for getEmployeesById method")
     @Test
-    public void givenEmployeesId_whenGetEmployeeById_thenReturnEmployeesObject() {
+    public void givenEmployeesIdWhenGetEmployeeByIdThenReturnEmployeesObject() {
         given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
         Employee savedEmployee = employeeService.getEmployeeById(employee.getId()).orElse(null);
         assertThat(savedEmployee).isNotNull();
@@ -94,7 +94,7 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for updateEmployee method")
     @Test
-    public void givenEmployeesObject_whenUpdateEmployee_thenReturnEmployeesObject() {
+    public void givenEmployeesObjectWhenUpdateEmployeeThenReturnEmployeesObject() {
         given(employeeRepository.save(employee)).willReturn(employee);
         employee.setFirstName("Valid_FisrtName_Employee_Updated");
         employee.setLastName("Valid_LastName_Employee_Updated");
@@ -107,7 +107,7 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for deleteEmployee method")
     @Test
-    public void givenEmployeesId_whenDeleteEmployee_thenNothing() {
+    public void givenEmployeesIdWhenDeleteEmployeeThenNothing() {
         Long employeeId = 1L;
         willDoNothing().given(employeeRepository).deleteById(employeeId);
         employeeService.deleteEmployee(employeeId);
