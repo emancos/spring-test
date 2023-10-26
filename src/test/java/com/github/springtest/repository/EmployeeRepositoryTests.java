@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,17 +45,19 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for get all employees operation")
     @Test
     void givenEmployeeListWhenFindAllThenEmployeeList() {
-        int listSize = 5;
-        for (int i = 0; i < listSize; i++) {
-            Employee aEmployee = Employee.builder()
-                .firstName(VALID_NAME_EMPLOYEE + i)
-                .lastName(VALID_LAST_NAME_EMPLOYEE + i)
-                .email("valid_email_employee"+ i + "@mail.com")
-                .build();
-            employeeRepository.save(aEmployee);
-        }
+        var employees = getListEmployee(5);
         List<Employee> employeeList = employeeRepository.findAll();
-        assertThat(employeeList).hasSize(listSize).isNotNull();
+        assertThat(employeeList).hasSize(employees).isNotNull();
+    }
+
+    @DisplayName("JUnit test for get all pageable employees operation")
+    @Test
+    void givenEmployeeListPageableWhenfindAllPageableThenEmployeeListPageable() {
+        PageRequest pageable = PageRequest.of(0,10);
+        getListEmployee(20);
+        Page<Employee> employeeListPageable = employeeRepository.findAllPageable(pageable);
+        assertThat(employeeListPageable).hasSize(pageable.getPageSize()).isNotNull();
+        assertThat(employeeListPageable.getSize()).isEqualTo(10);
     }
 
     @DisplayName("JUnit test for get employee by id operation")
@@ -132,5 +136,17 @@ public class EmployeeRepositoryTests {
         Employee employeeByJPQL = employeeRepository
                 .findByNativeSQLNamedParams(VALID_NAME_EMPLOYEE, VALID_LAST_NAME_EMPLOYEE);
         assertThat(employeeByJPQL).isNotNull();
+    }
+
+    private int getListEmployee(int listSize) {
+        for (int i = 0; i < listSize; i++) {
+            Employee aEmployee = Employee.builder()
+                .firstName(VALID_NAME_EMPLOYEE + i)
+                .lastName(VALID_LAST_NAME_EMPLOYEE + i)
+                .email("valid_email_employee"+ i + "@mail.com")
+                .build();
+            employeeRepository.save(aEmployee);
+        }
+        return listSize;
     }
 }
