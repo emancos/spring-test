@@ -2,6 +2,7 @@ package com.github.springtest.controller;
 
 import com.github.springtest.model.Employee;
 import com.github.springtest.service.EmployeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -38,8 +39,19 @@ public class EmployeeController {
 
     @GetMapping("{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id) {
-       return service.getEmployeeById(id)
-               .map(ResponseEntity::ok)
-               .orElseGet(() -> ResponseEntity.notFound().build());
+        return service.getEmployeeById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+        return service.getEmployeeById(id).map(savedEmploy -> {
+            savedEmploy.setFirstName(employee.getFirstName());
+            savedEmploy.setLastName(employee.getLastName());
+            savedEmploy.setEmail(employee.getEmail());
+            Employee updatedEmployee = service.updateEmployee(savedEmploy);
+            return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+        }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
