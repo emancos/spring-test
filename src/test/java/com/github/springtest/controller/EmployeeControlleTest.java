@@ -99,6 +99,34 @@ public class EmployeeControlleTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @DisplayName("JUnit test for update employee")
+    @Test
+    public void givenUpdateEmployeeWhenUpdateEmployeeThenReturnUpdateEmployeeObject() throws Exception {
+         Long id = 1L;
+         Employee savedEmployee = Employee.builder()
+                .id(id)
+                .firstName("Saved_Name_Employee")
+                .lastName("Saved_Last_Name_Employee")
+                .email("saved_email_employee@mail.com")
+                .build();
+
+         Employee updatedEmployee = Employee.builder()
+                .id(id)
+                .firstName("Updated_Name_Employee")
+                .lastName("Updated_Last_Name_Employee")
+                .email("updated_email_employee@mail.com")
+                .build();
+
+         BDDMockito.given(employeeService.getEmployeeById(id)).willReturn(Optional.of(savedEmployee));
+         BDDMockito.given(employeeService.updateEmployee(ArgumentMatchers.any(Employee.class)))
+                .willAnswer((invocation) -> invocation.getArgument(0));
+         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/employees/{id}", id)
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .content(objectMapper.writeValueAsString(updatedEmployee)));
+         response.andExpect(MockMvcResultMatchers.status().isOk())
+                 .andDo(MockMvcResultHandlers.print());
+    }
+
     private static List<Employee> createEmployeeList() {
         List<Employee> employeeList = new ArrayList<>();
         for(int i = 1; i < 6; i++) {
