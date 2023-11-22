@@ -57,6 +57,14 @@ public class DepartmentRepositoryTest {
         assertThat(departmentById).isNotNull();
     }
 
+    @DisplayName("JUnit test for get department by name operation")
+    @Test
+    public void givenDepartmentObjectWhenFindByNameThenReturnDepartmentObject() {
+        repository.save(department);
+        Department departmentById = repository.findByName(department.getName()).orElse(null);
+        assertThat(departmentById).isNotNull();
+    }
+
     private void getListDepartment(int listSize) {
         for(int i = 0; i < listSize; i++) {
             Department aDepartment = Department.builder()
