@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
+
 @DataJpaTest
 public class DepartmentRepositoryTest {
 
@@ -30,10 +33,29 @@ public class DepartmentRepositoryTest {
 
     @DisplayName("JUnit test for save department operation")
     @Test
-    void givenDepartamentObjectWhenSaveDepartmentThenReturnSavedDepartament() {
+    public void givenDepartamentObjectWhenSaveDepartmentThenReturnSavedDepartament() {
         Department savedDepartment = repository.save(department);
         assertThat(savedDepartment).isNotNull();
         assertThat(savedDepartment.getId()).isPositive();
         assertThat(savedDepartment.getName()).isEqualTo(NAME);
+    }
+
+    @DisplayName("JUnit test for get all departments operation")
+    @Test
+    void givenDepartmentListWhenFindAllThenDepartmentList() {
+        int listSize = 5;
+        getListDepartment(listSize);
+        List<Department> departments = repository.findAll();
+        assertThat(departments).hasSize(listSize).isNotNull();
+    }
+
+    private void getListDepartment(int listSize) {
+        for(int i = 0; i < listSize; i++) {
+            Department aDepartment = Department.builder()
+                    .name(NAME + "_" + (i+1))
+                    .build();
+            repository.save(aDepartment);
+        }
+
     }
 }
