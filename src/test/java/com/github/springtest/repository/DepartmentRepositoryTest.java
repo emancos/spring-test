@@ -42,7 +42,7 @@ public class DepartmentRepositoryTest {
 
     @DisplayName("JUnit test for get all departments operation")
     @Test
-    void givenDepartmentListWhenFindAllThenDepartmentList() {
+    public void givenDepartmentListWhenFindAllThenDepartmentList() {
         int listSize = 5;
         getListDepartment(listSize);
         List<Department> departments = repository.findAll();
@@ -53,7 +53,7 @@ public class DepartmentRepositoryTest {
     @Test
     public void givenDepartmentObjectWhenFindByIdThenReturnDepartmentObject() {
         repository.save(department);
-        Department departmentById = repository.findById(department.getId()).orElse(null);
+        Department departmentById = repository.findById(ID).orElse(null);
         assertThat(departmentById).isNotNull();
     }
 
@@ -61,8 +61,20 @@ public class DepartmentRepositoryTest {
     @Test
     public void givenDepartmentObjectWhenFindByNameThenReturnDepartmentObject() {
         repository.save(department);
-        Department departmentById = repository.findByName(department.getName()).orElse(null);
+        Department departmentById = repository.findByName(NAME).orElse(null);
         assertThat(departmentById).isNotNull();
+    }
+
+    @DisplayName("JUnit test for update department operation")
+    @Test
+    public void givenDepartmentObjectWhenUpdateDepartmentThenReturnUpdatedDepartment() {
+        var d = repository.save(department);
+        Department savedDepartment = repository.findById(d.getId()).orElse(null);
+        assertThat(savedDepartment).isNotNull();
+        savedDepartment.setName("VALID_NAME_UPDATED");
+        Department updatedDepartment = repository.save(savedDepartment);
+        assertThat(updatedDepartment).isNotNull();
+        assertThat(updatedDepartment.getName()).isEqualTo("VALID_NAME_UPDATED");
     }
 
     private void getListDepartment(int listSize) {
