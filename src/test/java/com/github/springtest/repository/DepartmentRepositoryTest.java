@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @DataJpaTest
@@ -68,13 +69,22 @@ public class DepartmentRepositoryTest {
     @DisplayName("JUnit test for update department operation")
     @Test
     public void givenDepartmentObjectWhenUpdateDepartmentThenReturnUpdatedDepartment() {
-        var d = repository.save(department);
-        Department savedDepartment = repository.findById(d.getId()).orElse(null);
+        var aDepartment = repository.save(department);
+        Department savedDepartment = repository.findById(aDepartment.getId()).orElse(null);
         assertThat(savedDepartment).isNotNull();
         savedDepartment.setName("VALID_NAME_UPDATED");
         Department updatedDepartment = repository.save(savedDepartment);
         assertThat(updatedDepartment).isNotNull();
         assertThat(updatedDepartment.getName()).isEqualTo("VALID_NAME_UPDATED");
+    }
+
+    @DisplayName("JUnit test for delete department operation")
+    @Test
+    void givenDepartmentObjectWhenDeleteDepartmentThenRemoveDepartment() {
+        var aDepartiment = repository.save(department);
+        repository.deleteById(aDepartiment.getId());
+        Optional<Department> deletedDepartment = repository.findById(aDepartiment.getId());
+        assertThat(deletedDepartment).isEmpty();
     }
 
     private void getListDepartment(int listSize) {
