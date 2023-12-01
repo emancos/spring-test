@@ -2,6 +2,7 @@ package com.github.springtest.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.springtest.model.Employee;
+import com.github.springtest.service.DepartmentService;
 import com.github.springtest.service.EmployeeService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.DisplayName;
@@ -29,6 +30,8 @@ public class EmployeeControlleTest {
     private MockMvc mockMvc;
     @MockBean
     private EmployeeService employeeService;
+    @MockBean
+    private DepartmentService departmentService;
     @Autowired
     private ObjectMapper objectMapper;
 
