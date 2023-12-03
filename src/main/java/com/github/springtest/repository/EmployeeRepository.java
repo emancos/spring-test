@@ -1,5 +1,6 @@
 package com.github.springtest.repository;
 
+import com.github.springtest.model.Department;
 import com.github.springtest.model.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -30,4 +32,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query(value = "SELECT * FROM employees e ORDER BY e.first_name ASC", nativeQuery = true)
     Page<Employee> findAllPageable(Pageable pageable);
+
+    @Query(value = "SELECT e FROM Employee e WHERE e.department.id =:id")
+    List<Employee> findEmployeesByDepartment(@Param("id") Long id);
 }
