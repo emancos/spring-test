@@ -1,5 +1,6 @@
 package com.github.springtest.service;
 
+import com.github.springtest.model.Department;
 import com.github.springtest.model.Employee;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface EmployeeService {
     Employee updateEmployee (Employee employee);
 
     void deleteEmployee (Long id);
+
+    List<Employee> getEmployeesByDepartment(String name);
 }
