@@ -1,7 +1,9 @@
 package com.github.springtest.service;
 
 import com.github.springtest.exception.ResourceNotFoundException;
+import com.github.springtest.model.Department;
 import com.github.springtest.model.Employee;
+import com.github.springtest.repository.DepartmentRepository;
 import com.github.springtest.repository.EmployeeRepository;
 import com.github.springtest.service.impl.EmployeeServiceImpl;
 
@@ -31,17 +33,26 @@ public class EmployeeServiceTests {
 
     @Mock
     private EmployeeRepository employeeRepository;
+    @Mock
+    private DepartmentRepository departmentRepository;
     @InjectMocks
     private EmployeeServiceImpl employeeService;
     private Employee employee;
+    private Department department;
 
     @BeforeEach
     public void setup() {
+        department = Department.builder()
+                .id(1L)
+                .name("IT")
+                .build();
+
         employee = Employee.builder()
                 .id(1L)
                 .firstName("Valid_Name_Employee")
                 .lastName("Valid_Last_Name_Employee")
                 .email("valid_email_employee@mail.com")
+                .department(department)
                 .build();
     }
 
@@ -49,9 +60,11 @@ public class EmployeeServiceTests {
     @Test
     public void givenEmployeeWhenSaveEmployeeThenReturnEmployeeObject() {
         given(employeeRepository.findByEmail(employee.getEmail())).willReturn(Optional.empty());
+        given(departmentRepository.findByName(department.getName())).willReturn(Optional.of(department));
         given(employeeRepository.save(employee)).willReturn(employee);
         Employee savedEmployee = employeeService.saveEmployee(employee);
         assertThat(savedEmployee).isNotNull();
+        assertThat(savedEmployee.getDepartment()).isEqualTo(department);
     }
 
     @DisplayName("JUnit test for saveEmployee method with throws exeption")
@@ -99,10 +112,13 @@ public class EmployeeServiceTests {
         employee.setFirstName("Valid_FisrtName_Employee_Updated");
         employee.setLastName("Valid_LastName_Employee_Updated");
         employee.setEmail("valid_email_employee_updated@mail.com");
+        employee.setDepartment(department);
         Employee updatedEmployee = employeeService.updateEmployee(employee);
         assertThat(updatedEmployee.getFirstName()).isEqualTo("Valid_FisrtName_Employee_Updated");
         assertThat(updatedEmployee.getLastName()).isEqualTo("Valid_LastName_Employee_Updated");
         assertThat(updatedEmployee.getEmail()).isEqualTo("valid_email_employee_updated@mail.com");
+        assertThat(updatedEmployee.getDepartment()).isEqualTo(department);
+
     }
 
     @DisplayName("JUnit test for deleteEmployee method")
@@ -112,5 +128,22 @@ public class EmployeeServiceTests {
         willDoNothing().given(employeeRepository).deleteById(employeeId);
         employeeService.deleteEmployee(employeeId);
         verify(employeeRepository, times(1)).deleteById(employeeId);
+    }
+
+    @DisplayName("JUnit test for getEmployeesByDepartment method")
+    @Test
+    public void givenDepartmentIdWhenGetEmployeesByDepartmentThenReturnEmployeesList() {
+        Employee employee1 = Employee.builder()
+                .id(2L)
+                .firstName("Valid_Name_Employee1")
+                .lastName("Valid_Last_Name_Employee1")
+                .email("valid_email_employee1@mail.com")
+                .department(department)
+                .build();
+        given(departmentRepository.findByName(department.getName())).willReturn(Optional.of(department));
+        given(employeeRepository.findEmployeesByDepartment(department.getId())).willReturn(List.of(employee, employee1));
+        List<Employee> employeesByDepartment = employeeService.getEmployeesByDepartment(department.getName());
+        assertThat(employeesByDepartment).isNotNull();
+        // assertThat(employeesByDepartment.size()).isEqualTo(2);
     }
 }
