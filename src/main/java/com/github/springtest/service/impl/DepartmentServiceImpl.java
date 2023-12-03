@@ -2,7 +2,9 @@ package com.github.springtest.service.impl;
 
 import com.github.springtest.exception.ResourceNotFoundException;
 import com.github.springtest.model.Department;
+import com.github.springtest.model.Employee;
 import com.github.springtest.repository.DepartmentRepository;
+import com.github.springtest.repository.EmployeeRepository;
 import com.github.springtest.service.DepartmentService;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository) {
         this.departmentRepository = departmentRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -48,4 +52,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void deleteDepartment(Long id) {
         departmentRepository.deleteById(id);
     }
+
+    @Override
+    public List<Employee> getEmployeesByDepartment(Long id) {
+        return employeeRepository.findEmployeesByDepartment(id);
+    }
+
 }

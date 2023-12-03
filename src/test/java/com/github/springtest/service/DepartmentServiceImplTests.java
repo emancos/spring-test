@@ -2,7 +2,9 @@ package com.github.springtest.service;
 
 import com.github.springtest.exception.ResourceNotFoundException;
 import com.github.springtest.model.Department;
+import com.github.springtest.model.Employee;
 import com.github.springtest.repository.DepartmentRepository;
+import com.github.springtest.repository.EmployeeRepository;
 import com.github.springtest.service.impl.DepartmentServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,8 @@ public class DepartmentServiceImplTests {
 
     @Mock
     private DepartmentRepository departmentRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
     @InjectMocks
     private DepartmentServiceImpl departmentService;
     private Department department;
@@ -102,5 +106,37 @@ public class DepartmentServiceImplTests {
         willDoNothing().given(departmentRepository).deleteById(departmentId);
         departmentService.deleteDepartment(departmentId);
         verify(departmentRepository, times(1)).deleteById(departmentId);
+    }
+
+    @DisplayName("JUnit test for get Employees by Department")
+    @Test
+    public void givenDepartmentWhenGetEmployeesByDepartmentThenReturnEmployeesList() {
+        Long departmentId = 1L;
+        Department department = Department.builder()
+                .id(departmentId)
+                .name("IT")
+                .build();
+
+        List<Employee> expectedEmployees = createEmployeeList();
+        given(employeeRepository.findEmployeesByDepartment(department.getId()))
+                .willReturn(expectedEmployees);
+        List<Employee> resultEmployees = departmentService.getEmployeesByDepartment(department.getId());
+        assertThat(resultEmployees).isNotNull();
+        assertThat(resultEmployees.size()).isEqualTo(expectedEmployees.size());
+    }
+
+    private static List<Employee> createEmployeeList() {
+        List<Employee> employeeList = new ArrayList<>();
+        for (int i = 1; i <= 3; i++) {
+            employeeList.add(
+                    Employee.builder()
+                            .id((long) i)
+                            .firstName("Employee" + i)
+                            .lastName("Lastname" + i)
+                            .email("employee" + i + "@example.com")
+                            .build()
+            );
+        }
+        return employeeList;
     }
 }

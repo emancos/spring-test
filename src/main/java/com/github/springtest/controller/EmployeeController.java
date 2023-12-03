@@ -1,5 +1,6 @@
 package com.github.springtest.controller;
 
+import com.github.springtest.model.Department;
 import com.github.springtest.model.Employee;
 import com.github.springtest.service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -53,5 +54,11 @@ public class EmployeeController {
             Employee updatedEmployee = service.updateEmployee(savedEmploy);
             return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
         }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/department/{name}")
+    public ResponseEntity<List<Employee>> getEmployeesByDepartment(@PathVariable String name) {
+        List<Employee> employees = service.getEmployeesByDepartment(name);
+        return ResponseEntity.ok().body(employees);
     }
 }
