@@ -102,10 +102,7 @@ public class EmployeeTest {
         Department department = new Department(1L, "IT");
 
         Employee employee = new Employee(1L, FIRST_NAME, LAST_NAME, EMAIL, department);
-
-        int hashCode = employee.hashCode();
-
-        assertNotNull(hashCode);
+        assertNotEquals(employee.hashCode(), 0);
     }
 
     @Test
