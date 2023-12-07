@@ -23,3 +23,5 @@ Com isso, devemos simular alguns objetos no intuito de conseguir testar o códig
 - [Documento de visão](https://github.com/emancos/bsi-tasks/blob/master/softwaretesting/20232/tarefas/emancos/docs/Documento%20de%20vis%C3%A3o.md)
 - [Plano de release e interação](https://github.com/emancos/bsi-tasks/blob/master/softwaretesting/20232/tarefas/emancos/docs/Plano%20de%20Release%20e%20Itera%C3%A7%C3%A3o.md)
 - [Modelo Conceitual UML - Employee](https://github.com/emancos/bsi-tasks/blob/master/softwaretesting/20232/tarefas/emancos/docs/UML%20-%20Employee%20entity.md)
+- [Plano de testes](https://github.com/emancos/bsi-tasks/blob/master/softwaretesting/20232/tarefas/emancos/docs/Plano%20de%20Testes.md)
+- [Informações sobre os testes de mutação](https://github.com/emancos/bsi-tasks/blob/master/softwaretesting/20232/tarefas/emancos/docs/Testes%20de%20Mutacao.md)
