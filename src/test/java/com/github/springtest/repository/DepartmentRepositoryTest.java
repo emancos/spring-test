@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 
 @DataJpaTest
@@ -53,8 +54,8 @@ public class DepartmentRepositoryTest {
     @DisplayName("JUnit test for get department by id operation")
     @Test
     public void givenDepartmentObjectWhenFindByIdThenReturnDepartmentObject() {
-        repository.save(department);
-        Department departmentById = repository.findById(ID).orElse(null);
+        Department savedDepartment = repository.save(department);
+        Department departmentById = repository.findById(savedDepartment.getId()).orElse(null);
         assertThat(departmentById).isNotNull();
     }
 
