@@ -1,3 +1,6 @@
+<a href="https://codeclimate.com/github/emancos/spring-test/maintainability"><img src="https://api.codeclimate.com/v1/badges/16d7964a3adb7c76b043/maintainability" /></a>
+<a href="https://codeclimate.com/github/emancos/spring-test/test_coverage"><img src="https://api.codeclimate.com/v1/badges/16d7964a3adb7c76b043/test_coverage" /></a>
+
 # Tutorial - Implementação CRUD com Spring Boot, JUnit e Mockito
 * [Spring Boot Unit Testing CRUD REST API with JUnit and Mockito](https://www.javaguides.net/2022/03/spring-boot-unit-testing-crud-rest-api-with-junit-and-mockito.html)
 
