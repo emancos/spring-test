@@ -1,3 +1,8 @@
+<a href="https://scan.coverity.com/projects/emancos-spring-test">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/29538/badge.svg"/>
+</a>
+
 # Tutorial - Implementação CRUD com Spring Boot, JUnit e Mockito
 * [Spring Boot Unit Testing CRUD REST API with JUnit and Mockito](https://www.javaguides.net/2022/03/spring-boot-unit-testing-crud-rest-api-with-junit-and-mockito.html)
 
